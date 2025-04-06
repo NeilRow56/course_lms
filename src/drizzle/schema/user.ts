@@ -11,6 +11,11 @@ export const userRoleEnum = pgEnum('user_role', userRoles)
 
 export const UserTable = pgTable('users', {
   id,
+  // The application should allow multiple users to be deleted without violating the UNIQUE constraint.
+  //Suggested Fix
+  //Use a UUID (probably more robust solution):
+  // "clerkUserId: deleted-${crypto.randomUUID()}"
+
   clerkUserId: text().notNull().unique(),
   email: text().notNull(),
   name: text().notNull(),
