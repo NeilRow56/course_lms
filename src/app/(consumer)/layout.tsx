@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
-
+import { canAccessAdminPages } from '@/permissions/general'
+import { getCurrentUser } from '@/services/clerk'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import { ReactNode, Suspense } from 'react'
@@ -15,33 +16,28 @@ export default function ConsumerLayout({
   )
 }
 
-function Navbar() {
+async function Navbar() {
   return (
-    <header className='bg-background z-10 flex h-12 items-center shadow'>
-      <nav className='container mx-auto flex gap-4 p-8'>
+    <header className='bg-background z-10 flex h-12 shadow'>
+      <nav className='container mx-auto flex gap-4'>
         <Link
           className='mr-auto flex items-center text-lg hover:underline'
           href='/'
         >
           Web Dev Simplified
         </Link>
+        {}
         <Suspense>
           <SignedIn>
+            <AdminLink />
             <Link
-              className='hover:bg-accent/10 flex items-center px-2 hover:rounded-md'
-              href='/admin'
-            >
-              Admin
-            </Link>
-            <Link
-              className='hover:bg-accent/10 flex items-center px-2 hover:rounded-md'
+              className='hover:bg-accent/10 flex items-center px-2'
               href='/courses'
             >
               My Courses
             </Link>
-
             <Link
-              className='hover:bg-accent/10 flex items-center px-2 hover:rounded-md'
+              className='hover:bg-accent/10 flex items-center px-2'
               href='/purchases'
             >
               Purchase History
@@ -66,5 +62,16 @@ function Navbar() {
         </Suspense>
       </nav>
     </header>
+  )
+}
+
+async function AdminLink() {
+  const user = await getCurrentUser()
+  if (!canAccessAdminPages(user)) return null
+
+  return (
+    <Link className='hover:bg-accent/10 flex items-center px-2' href='/admin'>
+      Admin
+    </Link>
   )
 }
