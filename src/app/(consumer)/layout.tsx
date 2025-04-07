@@ -17,8 +17,8 @@ export default function ConsumerLayout({
 
 function Navbar() {
   return (
-    <header className='bg-background z-10 flex h-12 shadow'>
-      <nav className='container flex gap-4'>
+    <header className='bg-background z-10 flex h-12 items-center shadow'>
+      <nav className='container mx-auto flex gap-4 p-8'>
         <Link
           className='mr-auto flex items-center text-lg hover:underline'
           href='/'
@@ -28,13 +28,20 @@ function Navbar() {
         <Suspense>
           <SignedIn>
             <Link
-              className='hover:bg-accent/10 flex items-center px-2'
+              className='hover:bg-accent/10 flex items-center px-2 hover:rounded-md'
+              href='/admin'
+            >
+              Admin
+            </Link>
+            <Link
+              className='hover:bg-accent/10 flex items-center px-2 hover:rounded-md'
               href='/courses'
             >
               My Courses
             </Link>
+
             <Link
-              className='hover:bg-accent/10 flex items-center px-2'
+              className='hover:bg-accent/10 flex items-center px-2 hover:rounded-md'
               href='/purchases'
             >
               Purchase History
